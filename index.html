@@ -10,7 +10,7 @@
     <div class="container">
         <header>
             <h1>🎲 Bangumi目录随机抽取器</h1>
-            <p>从指定的Bangumi目录中随机抽取一个作品</p>
+            <p>从指定的Bangumi目录中随机抽取一个作品，也可以自己添加作品进入抽取池</p>
         </header>
 
         <main>
@@ -27,12 +27,54 @@
 
             <!-- 目录搜索区域 -->
             <section class="search-section">
+                <h3>📁 目录搜索</h3>
                 <div class="search-box">
                     <input type="text" id="index-search-input" placeholder="请输入目录ID（如：12345）" />
                     <button id="search-btn" class="search-btn">搜索目录</button>
                 </div>
                 <div class="search-tips">
                     <p>💡 提示：请输入数字格式的目录ID，可以从Bangumi目录页面的URL中获取</p>
+                </div>
+            </section>
+
+            <!-- 游戏搜索区域 -->
+            <section class="game-search-section">
+                <h3>🎮 游戏搜索</h3>
+                <div class="search-box">
+                    <input type="text" id="game-search-input" placeholder="搜索游戏名称（如：白色相簿）" />
+                    <button id="game-search-btn" class="search-btn">搜索游戏</button>
+                </div>
+                <div class="search-tips">
+                    <p>💡 提示：可以搜索游戏中文名或日文名，找到后可添加到抽取池</p>
+                </div>
+                
+                <!-- 搜索结果区域 -->
+                <div id="game-search-results" class="game-search-results" style="display: none;"></div>
+            </section>
+
+            <!-- 游戏池状态区域 -->
+            <section class="pool-status-section" id="pool-status-section" style="display: none;">
+                <div class="pool-card">
+                    <h3>🎯 抽取池状态</h3>
+                    <div class="pool-stats">
+                        <div class="pool-stat">
+                            <span class="stat-label">目录游戏：</span>
+                            <span id="index-games-count">0</span>
+                        </div>
+                        <div class="pool-stat">
+                            <span class="stat-label">自定义游戏：</span>
+                            <span id="custom-games-count">0</span>
+                        </div>
+                        <div class="pool-stat total">
+                            <span class="stat-label">总计：</span>
+                            <span id="total-games-count">0</span>
+                        </div>
+                    </div>
+                    <div class="pool-actions">
+                        <button id="random-pick-btn" class="random-btn">🎲 随机抽取</button>
+                        <button id="view-custom-pool-btn" class="action-btn secondary">查看自定义池</button>
+                        <button id="clear-custom-pool-btn" class="action-btn danger">清空自定义池</button>
+                    </div>
                 </div>
             </section>
 
@@ -45,7 +87,6 @@
                         <span id="index-total">共 0 个作品</span>
                         <span id="index-creator">创建者：未知</span>
                     </div>
-                    <button id="random-pick-btn" class="random-btn">🎲 随机抽取</button>
                 </div>
             </section>
 
@@ -75,6 +116,22 @@
             <div id="loading" class="loading" style="display: none;">
                 <div class="spinner"></div>
                 <p>正在加载中...</p>
+            </div>
+
+            <!-- 自定义游戏池查看 -->
+            <div id="custom-pool-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>🎮 自定义游戏池</h3>
+                        <button id="close-custom-pool-modal" class="close-btn">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="custom-pool-list" class="custom-pool-list"></div>
+                        <div id="custom-pool-empty" class="empty-state" style="display: none;">
+                            <p>🎯 暂无自定义游戏，去搜索添加一些吧！</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- 错误信息 -->
