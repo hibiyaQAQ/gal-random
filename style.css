@@ -52,6 +52,7 @@ main {
 /* 卡片样式 */
 .auth-section,
 .search-section,
+.game-search-section,
 .index-info-section,
 .result-section {
     background: white;
@@ -102,7 +103,8 @@ main {
     margin-bottom: 15px;
 }
 
-#index-search-input {
+#index-search-input,
+#game-search-input {
     flex: 1;
     padding: 15px 20px;
     border: 2px solid #e1e8ed;
@@ -111,7 +113,8 @@ main {
     transition: all 0.3s ease;
 }
 
-#index-search-input:focus {
+#index-search-input:focus,
+#game-search-input:focus {
     outline: none;
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
@@ -142,6 +145,14 @@ main {
 
 .search-tips p {
     margin: 0;
+}
+
+.search-section h3, 
+.game-search-section h3 {
+    margin: 0 0 20px 0;
+    color: #333;
+    font-size: 1.4rem;
+    font-weight: 700;
 }
 
 /* 目录信息卡片 */
@@ -371,4 +382,265 @@ footer a:hover {
     .action-btn {
         flex: 1;
     }
+    
+    .pool-stats {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .pool-actions {
+        flex-direction: column;
+    }
+    
+    .modal-content {
+        width: 95%;
+        max-height: 90%;
+    }
+    
+    .search-result-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+}
+
+/* 游戏搜索结果 */
+
+.game-search-results {
+    margin-top: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.search-result-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: all 0.2s;
+}
+
+.search-result-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.search-result-image {
+    width: 60px;
+    height: 84px;
+    border-radius: 4px;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-result-info {
+    flex: 1;
+}
+
+.search-result-title {
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.search-result-name {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+}
+
+.search-result-date {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+}
+
+.add-to-pool-btn {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.2s;
+}
+
+.add-to-pool-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.add-to-pool-btn:disabled {
+    background: #6c757d;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* 游戏池状态区域 */
+.pool-status-section {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pool-card h3 {
+    margin: 0 0 20px 0;
+    color: white;
+    font-size: 1.2rem;
+}
+
+.pool-stats {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.pool-stat {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pool-stat.total {
+    background: linear-gradient(135deg, #6f42c1, #8b5cf6);
+    border: 1px solid rgba(111, 66, 193, 0.3);
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.pool-stat span:last-child {
+    color: white;
+    font-weight: bold;
+    margin-left: 5px;
+}
+
+.pool-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.action-btn.secondary {
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+}
+
+.action-btn.danger {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+}
+
+/* 模态框 */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    max-width: 90%;
+    max-height: 80%;
+    width: 600px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    padding: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: white;
+}
+
+.modal-body {
+    padding: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.custom-pool-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.custom-pool-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.custom-pool-item-image {
+    width: 50px;
+    height: 70px;
+    border-radius: 4px;
+    object-fit: cover;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.custom-pool-item-info {
+    flex: 1;
+}
+
+.custom-pool-item-title {
+    font-weight: bold;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.custom-pool-item-name {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.remove-from-pool-btn {
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: all 0.2s;
+}
+
+.remove-from-pool-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(220, 53, 69, 0.3);
+}
+
+.empty-state {
+    text-align: center;
+    color: rgba(255, 255, 255, 0.6);
+    padding: 40px 20px;
 }
