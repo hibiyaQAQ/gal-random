@@ -443,18 +443,18 @@ footer a:hover {
 
 .search-result-title {
     font-weight: bold;
-    color: white;
+    color: rgb(16, 16, 16);
     margin-bottom: 5px;
 }
 
 .search-result-name {
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(67, 65, 65, 0.8);
     font-size: 0.9rem;
     margin-bottom: 5px;
 }
 
 .search-result-date {
-    color: rgba(255, 255, 255, 0.6);
+    color: rgba(91, 83, 83, 0.6);
     font-size: 0.8rem;
 }
 
