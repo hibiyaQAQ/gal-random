@@ -522,12 +522,10 @@ class BangumiRandomPicker {
         indexCount.textContent = indexGames;
         customCount.textContent = customGames;
         totalCount.textContent = total;
-        
-        // 只有当有游戏可抽取时才显示池状态
-        if (total > 0) {
+
+        // 改为始终显示抽取池状态区域
+        if (poolSection) {
             poolSection.style.display = 'block';
-        } else {
-            poolSection.style.display = 'none';
         }
     }
 
@@ -1516,4 +1514,3 @@ class BangumiRandomPicker {
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new BangumiRandomPicker();
 });
-
