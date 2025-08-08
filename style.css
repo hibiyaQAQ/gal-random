@@ -938,6 +938,33 @@ body.dark-mode .control-btn:hover {
     background: rgba(52, 73, 94, 1);
 }
 
+/* ===== 多主题（与浅色/深色叠加）===== */
+/* 主题：日落（紫红橙渐变） */
+body.theme-sunset {
+    background: linear-gradient(135deg, #f5576c 0%, #f093fb 100%);
+}
+body.dark-mode.theme-sunset {
+    background: linear-gradient(135deg, #6a0572 0%, #39065a 100%);
+}
+
+/* 主题：森林（青绿黄） */
+body.theme-forest {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+body.dark-mode.theme-forest {
+    background: linear-gradient(135deg, #0b4f4a 0%, #0f9b0f 100%);
+}
+
+/* 主题：海洋（蓝青） */
+body.theme-ocean {
+    background: linear-gradient(135deg, #00c6ff 0%, #0072ff 100%);
+}
+body.dark-mode.theme-ocean {
+    background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+}
+
+/* 主题卡片与强调色可作轻微微调（维持现有通用样式） */
+
 body.dark-mode .filter-section {
     background: rgba(52, 73, 94, 0.8);
 }

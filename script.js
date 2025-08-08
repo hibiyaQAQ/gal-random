@@ -9,6 +9,7 @@ class BangumiRandomPicker {
         this.pickHistory = []; // 抽取历史记录
         this.excludeHistory = false; // 是否排除历史记录
         this.darkMode = false; // 深色模式
+        this.theme = 'default'; // 主题：default/sunset/forest/ocean
         this.filters = {
             yearRange: { min: null, max: null },
             ratingRange: { min: null, max: null }
@@ -67,6 +68,10 @@ class BangumiRandomPicker {
             this.saveSettings();
         });
         document.getElementById('dark-mode-toggle').addEventListener('click', () => this.toggleDarkMode());
+        const themeToggleBtn = document.getElementById('theme-toggle-btn');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => this.toggleTheme());
+        }
         
         // 筛选功能事件
         // 筛选功能事件
@@ -995,6 +1000,7 @@ class BangumiRandomPicker {
                 const parsed = JSON.parse(settings);
                 this.excludeHistory = parsed.excludeHistory || false;
                 this.darkMode = parsed.darkMode || false;
+                this.theme = parsed.theme || 'default';
                 this.filters = parsed.filters || {
                     yearRange: { min: null, max: null },
                     ratingRange: { min: null, max: null }
@@ -1004,6 +1010,8 @@ class BangumiRandomPicker {
                 if (this.darkMode) {
                     document.body.classList.add('dark-mode');
                 }
+                // 应用主题
+                this.applyTheme(this.theme);
                 
                 // 更新UI状态
                 const excludeCheckbox = document.getElementById('exclude-history-checkbox');
@@ -1022,6 +1030,7 @@ class BangumiRandomPicker {
             const settings = {
                 excludeHistory: this.excludeHistory,
                 darkMode: this.darkMode,
+                theme: this.theme,
                 filters: this.filters
             };
             localStorage.setItem('app_settings', JSON.stringify(settings));
@@ -1035,6 +1044,31 @@ class BangumiRandomPicker {
         this.darkMode = !this.darkMode;
         document.body.classList.toggle('dark-mode', this.darkMode);
         this.saveSettings();
+    }
+
+    // 切换主题（循环）
+    toggleTheme() {
+        const themes = ['default', 'sunset', 'forest', 'ocean'];
+        const currentIndex = themes.indexOf(this.theme);
+        const nextIndex = (currentIndex + 1) % themes.length;
+        this.applyTheme(themes[nextIndex]);
+        this.saveSettings();
+        // 可选反馈
+        // this.showError(`主题已切换为：${this.theme}`);
+    }
+
+    // 应用指定主题
+    applyTheme(themeName) {
+        const themes = ['sunset', 'forest', 'ocean'];
+        // 移除旧主题类
+        for (const t of themes) {
+            document.body.classList.remove(`theme-${t}`);
+        }
+        // 默认主题不加类名
+        if (themeName && themeName !== 'default') {
+            document.body.classList.add(`theme-${themeName}`);
+        }
+        this.theme = themeName || 'default';
     }
 
     // 查看抽取历史
