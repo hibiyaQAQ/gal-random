@@ -286,7 +286,7 @@ class BangumiRandomPicker {
             if (!response.ok) {
                 // 尝试兼容整数枚举（部分实现可能使用 type=2 表示 wish）
                 if (response.status === 400 || response.status === 422) {
-                    const fallbackUrl = `https://api.bgm.tv/v0/users/${encodeURIComponent(username)}/collections?subject_type=4&type=2&limit=${limit}&offset=${offset}`;
+                    const fallbackUrl = `https://api.bgm.tv/v0/users/${encodeURIComponent(username)}/collections?subject_type=4&type=1&limit=${limit}&offset=${offset}`;
                     const fallbackResp = await fetch(fallbackUrl, { headers });
                     if (!fallbackResp.ok) {
                         throw new Error(`获取想玩清单失败（HTTP ${fallbackResp.status}）`);
@@ -1516,3 +1516,4 @@ class BangumiRandomPicker {
 document.addEventListener('DOMContentLoaded', () => {
     window.app = new BangumiRandomPicker();
 });
+
