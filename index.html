@@ -11,6 +11,9 @@
         <header>
             <h1>🎲 Bangumi目录随机抽取器</h1>
             <p>从指定的Bangumi目录中随机抽取一个作品，也可以自己添加作品进入抽取池</p>
+            <div class="header-controls">
+                <button id="dark-mode-toggle" class="control-btn">🌙 深色模式</button>
+            </div>
         </header>
 
         <main>
@@ -38,6 +41,7 @@
             </section>
 
             <!-- 游戏搜索区域 -->
+            <!-- 游戏搜索区域 -->
             <section class="game-search-section">
                 <h3>🎮 游戏搜索</h3>
                 <div class="search-box">
@@ -50,6 +54,32 @@
                 
                 <!-- 搜索结果区域 -->
                 <div id="game-search-results" class="game-search-results" style="display: none;"></div>
+            </section>
+
+            <!-- 筛选区域 -->
+            <section class="filter-section" id="filter-section" style="display: none;">
+                <h3>🔍 筛选条件</h3>
+                <div class="filter-controls">
+                    <div class="filter-group">
+                        <label>发行年份：</label>
+                        <input type="number" id="year-min" placeholder="最早年份" min="1980" max="2030">
+                        <span>至</span>
+                        <input type="number" id="year-max" placeholder="最晚年份" min="1980" max="2030">
+                    </div>
+                    <div class="filter-group">
+                    <div class="filter-group">
+                    <div class="filter-group">
+                        <label>评分范围：</label>
+                        <input type="number" id="rating-min" placeholder="最低评分" min="0" max="10" step="0.1">
+                        <span>至</span>
+                        <input type="number" id="rating-max" placeholder="最高评分" min="0" max="10" step="0.1">
+                        <small style="color: rgba(255, 255, 255, 0.6); font-size: 12px; margin-left: 10px;">（仅对有评分的游戏生效，且由于目录内作品数较多时，会比较慢，慎重启用）</small>
+                    </div>
+                    <div class="filter-actions">
+                        <button id="apply-filters-btn" class="action-btn">应用筛选</button>
+                        <button id="clear-filters-btn" class="action-btn secondary">清除筛选</button>
+                    </div>
+                </div>
             </section>
 
             <!-- 游戏池状态区域 -->
@@ -71,10 +101,26 @@
                         </div>
                     </div>
                     <div class="pool-actions">
+                    <div class="pool-actions">
+                    <div class="pool-actions">
                         <button id="random-pick-btn" class="random-btn">🎲 随机抽取</button>
-                         <button id="import-wishlist-btn" class="action-btn">导入想玩</button>
+                        <div class="batch-pick-controls">
+                            <input type="number" id="batch-count" min="2" max="10" value="3" placeholder="数量">
+                            <button id="batch-pick-btn" class="action-btn">🎲 批量抽取</button>
+                        </div>
+                        <button id="toggle-filters-btn" class="action-btn secondary">🔍 筛选条件</button>
+                        <button id="import-wish-btn" class="action-btn" title="从账号的想玩清单导入到自定义池">📥 导入想玩</button>
                         <button id="view-custom-pool-btn" class="action-btn secondary">查看自定义池</button>
+                        <button id="view-history-btn" class="action-btn secondary">查看历史</button>
                         <button id="clear-custom-pool-btn" class="action-btn danger">清空自定义池</button>
+                        <button id="clear-history-btn" class="action-btn danger">清空历史</button>
+                    </div>
+                    <div class="pool-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="exclude-history-checkbox">
+                            <span class="checkmark"></span>
+                            排除已抽取的游戏
+                        </label>
                     </div>
                 </div>
             </section>
@@ -100,7 +146,9 @@
                             <img id="result-image" src="" alt="作品封面" />
                         </div>
                         <div class="result-info">
+                        <div class="result-info">
                             <h4 id="result-title">作品标题</h4>
+                            <p id="result-rating" style="display: none;">评分</p>
                             <p id="result-name">原名</p>
                             <p id="result-date">发行日期</p>
                             <p id="result-comment">收录备注</p>
@@ -120,6 +168,7 @@
             </div>
 
             <!-- 自定义游戏池查看 -->
+            <!-- 自定义游戏池查看 -->
             <div id="custom-pool-modal" class="modal" style="display: none;">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -130,6 +179,22 @@
                         <div id="custom-pool-list" class="custom-pool-list"></div>
                         <div id="custom-pool-empty" class="empty-state" style="display: none;">
                             <p>🎯 暂无自定义游戏，去搜索添加一些吧！</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 抽取历史查看 -->
+            <div id="history-modal" class="modal" style="display: none;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>📜 抽取历史</h3>
+                        <button id="close-history-modal" class="close-btn">×</button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="history-list" class="history-list"></div>
+                        <div id="history-empty" class="empty-state" style="display: none;">
+                            <p>📝 暂无抽取历史，去抽取一些游戏吧！</p>
                         </div>
                     </div>
                 </div>
