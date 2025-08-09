@@ -112,16 +112,20 @@ class BangumiRandomPicker {
             const accessToken = params.get('access_token');
             const userId = params.get('user_id');
             const expiresIn = params.get('expires_in');
-            
+
             // 保存token信息
             localStorage.setItem('bgm_access_token', accessToken);
-            localStorage.setItem('bgm_user_id', userId);
-            localStorage.setItem('bgm_token_expires', Date.now() + (expiresIn * 1000));
-            
-            // 清除URL hash
+            if (userId) localStorage.setItem('bgm_user_id', userId);
+            if (expiresIn) localStorage.setItem('bgm_token_expires', Date.now() + (parseInt(expiresIn) * 1000));
+
+            // 先更新本地状态与UI，随后再异步获取用户信息
+            this.accessToken = accessToken;
+            this.updateLoginStatus(true);
+
+            // 清除URL hash（不刷新页面）
             window.location.hash = '';
-            
-            console.log('登录成功，获取用户信息...');
+
+            console.log('登录成功，开始获取用户信息...');
             this.getUserInfo();
         } else {
             // 检查本地存储的token
@@ -130,6 +134,8 @@ class BangumiRandomPicker {
             
             if (storedToken && tokenExpires && Date.now() < parseInt(tokenExpires)) {
                 this.accessToken = storedToken;
+                // 先展示已登录，再尝试拉取用户信息
+                this.updateLoginStatus(true);
                 this.getUserInfo();
             }
         }
@@ -162,8 +168,7 @@ class BangumiRandomPicker {
         try {
             const response = await fetch('https://api.bgm.tv/v0/me', {
                 headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'User-Agent': 'BangumiRandomPicker/1.0'
+                    'Authorization': `Bearer ${token}`
                 }
             });
 
@@ -175,12 +180,21 @@ class BangumiRandomPicker {
                     localStorage.setItem('bgm_username', this.username);
                 }
                 this.updateLoginStatus(true, userInfo.nickname || userInfo.username);
+            } else if (response.status === 401 || response.status === 403) {
+                // 令牌无效，执行登出
+                throw new Error('访问被拒绝，令牌可能已失效，请重新登录');
             } else {
-                throw new Error('获取用户信息失败');
+                throw new Error(`获取用户信息失败（HTTP ${response.status}）`);
             }
         } catch (error) {
             console.error('获取用户信息失败:', error);
-            this.logout();
+            // 对于网络/CORS等问题，不立即登出，避免影响已登录状态体验
+            // 仅当明确的鉴权失败（401/403）时才登出
+            if (/401|403/.test(String(error))) {
+                this.logout();
+            } else {
+                this.showError(typeof error === 'string' ? error : (error.message || '获取用户信息失败'));
+            }
         }
     }
 
